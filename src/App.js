@@ -21,6 +21,9 @@ class App extends Component {
           </div>
         </Navbar>
         <StaffList staffs={this.state.staffs} />
+        <h4 className="container margin">
+          Bấm vào tên nhân viên để xem thông tin.
+        </h4>
       </div>
     );
   }
