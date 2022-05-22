@@ -2,7 +2,15 @@ import React, { Component } from "react";
 import { Navbar, NavbarBrand } from "reactstrap";
 import StaffList from "./components/StaffListComponent";
 import { STAFFS } from "./shared/staffs";
+import styled from "styled-components";
 import "./App.css";
+
+const StaffListStyle = styled(StaffList)`
+  &:hover {
+    background-color: #e2e2e2;
+    border-radius: 3px;
+  }
+`;
 
 class App extends Component {
   constructor(props) {
