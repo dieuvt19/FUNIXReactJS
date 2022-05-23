@@ -40,6 +40,14 @@ class StaffList extends Component {
               <CardTitle>Phòng ban: {staff.department.name}</CardTitle>
               <CardTitle>Số ngày nghỉ còn lại: {staff.annualLeave}</CardTitle>
               <CardTitle>Họ và tên: {staff.overTime}</CardTitle>
+              <button
+                onClick={() => {
+                  console.log("ok");
+                  this.onStaffSelect(null);
+                }}
+              >
+                Close
+              </button>
             </CardBody>
           </Card>
         </div>
