@@ -42,7 +42,6 @@ class StaffList extends Component {
               <CardTitle>Họ và tên: {staff.overTime}</CardTitle>
               <button
                 onClick={() => {
-                  console.log("ok");
                   this.onStaffSelect(null);
                 }}
               >
