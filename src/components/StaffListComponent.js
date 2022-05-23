@@ -41,6 +41,7 @@ class StaffList extends Component {
               <CardTitle>Số ngày nghỉ còn lại: {staff.annualLeave}</CardTitle>
               <CardTitle>Họ và tên: {staff.overTime}</CardTitle>
               <button
+                className="btn btn-danger"
                 onClick={() => {
                   this.onStaffSelect(null);
                 }}
