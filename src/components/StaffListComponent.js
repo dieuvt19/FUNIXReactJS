@@ -27,7 +27,7 @@ class StaffList extends Component {
     if (staff != null) {
       return (
         <div className="col-12">
-          <card>
+          <Card>
             <CardImg with="100%" src={staff.image} alt={staff.name} />
             <CardBody>
               <CardTitle>Họ và tên: {staff.name}</CardTitle>
@@ -41,7 +41,7 @@ class StaffList extends Component {
               <CardTitle>Số ngày nghỉ còn lại: {staff.annualLeave}</CardTitle>
               <CardTitle>Họ và tên: {staff.overTime}</CardTitle>
             </CardBody>
-          </card>
+          </Card>
         </div>
       );
     } else {
@@ -52,8 +52,8 @@ class StaffList extends Component {
   render() {
     const staffList = this.props.staffs.map((staff) => {
       return (
-        <div className={this.state.columnDefault}>
-          <Card key={staff.id} onClick={() => this.onStaffSelect(staff)}>
+        <div className={this.state.columnDefault} key={staff.id}>
+          <Card onClick={() => this.onStaffSelect(staff)}>
             <CardBody>
               <CardTitle>{staff.name}</CardTitle>
             </CardBody>

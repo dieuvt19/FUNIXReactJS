@@ -20,7 +20,7 @@ class App extends Component {
             <NavbarBrand href="/">Ứng dụng quản lý nhân sự v1.0</NavbarBrand>
           </div>
         </Navbar>
-        <StaffList className="table-hover" staffs={this.state.staffs} />
+        <StaffList staffs={this.state.staffs} />
         <h4 className="container">Bấm vào tên nhân viên để xem thông tin.</h4>
       </div>
     );
