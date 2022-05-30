@@ -13,6 +13,8 @@ export default function StaffList(props) {
   });
   return (
     <div className="container">
+      <h3>Nhân Viên</h3>
+      <hr />
       <div className="row">{listStaff}</div>
     </div>
   );
