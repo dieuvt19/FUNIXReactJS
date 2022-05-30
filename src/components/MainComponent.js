@@ -1,30 +1,24 @@
-import React, { Component } from "react";
-import { Navbar, NavbarBrand } from "reactstrap";
-import StaffList from "./StaffListComponent";
-import { STAFFS } from "../shared/staffs";
-import Salary from "./SalaryComponent";
-import Departments from "./DepartmentsComponent";
+import React from "react";
 import Header from "./HeaderComponent";
 import Footer from "./FooterComponent";
+import { Switch, Route } from "react-router-dom";
+import StaffList from "./StaffListComponent";
+import { STAFFS, DEPARTMENTS } from "../shared/staffs";
+import { useState } from "react";
 
-class Main extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      staffs: STAFFS,
-    };
-  }
-
-  render() {
-    return (
-      <div>
-        <Header />
-        <StaffList staffs={this.state.staffs} />
-        <h4 className="container">Bấm vào tên nhân viên để xem thông tin.</h4>
-        <Footer />
-      </div>
-    );
-  }
+export default function Main() {
+  const [nhanvien, setNhanVien] = useState({
+    staffs: STAFFS,
+    departments: DEPARTMENTS,
+  });
+  return (
+    <div>
+      <Header />
+      <Route
+        path="/nhanvien"
+        component={() => <StaffList staffs={nhanvien.staffs} />}
+      />
+      <Footer />
+    </div>
+  );
 }
-
-export default Main;
