@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import dateFormat from "dateformat";
 
 export default function StaffDetail(props) {
+  console.log(props);
   if (props.nv != null) {
     return (
       <div className="container">
@@ -41,7 +42,7 @@ function RenderStaff({ staff }) {
       <div className="col-12">
         <div className="row">
           <div className="col-3">
-            <CardImg width="100%" src={staff.image} alt={staff.name} />
+            <CardImg width="100%" src={staff.image} value={staff.name} />
           </div>
           <div className="col-9">
             <CardTitle>Họ và tên: {staff.name}</CardTitle>
