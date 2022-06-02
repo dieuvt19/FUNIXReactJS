@@ -14,10 +14,10 @@ function RenderStaff({ nv }) {
     return (
       <div className="col-12">
         <div className="row">
-          <div className="col-12 col-md-4">
+          <div className="col-12 col-md-4 col-lg-3">
             <CardImg width="100%" src={nv.image} value={nv.name} />
           </div>
-          <div className="col-12 col-md-8">
+          <div className="col-12 col-md-8 col-lg-9">
             <CardTitle>Họ và tên: {nv.name}</CardTitle>
             <CardText>Ngày sinh: {dateFormat(nv.doB, "dd/mm/yyyy")}</CardText>
             <CardText>

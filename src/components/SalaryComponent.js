@@ -37,8 +37,8 @@ const Salary = (props) => {
   console.log(props);
   const salary = props.staffs.map((ss) => {
     return (
-      <div key={ss.id}>
-        <div className="col-12 mt-2">
+      <div key={ss.id} className="col-12 col-md-6 col-lg-4">
+        <div className="mt-2">
           <RenderSalary staff={ss} />
         </div>
       </div>

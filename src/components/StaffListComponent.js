@@ -17,8 +17,8 @@ function RenderStaffItem({ staff, onClick }) {
 const StaffList = (props) => {
   const listStaff = props.staffs.map((staff) => {
     return (
-      <div key={staff.id}>
-        <div className="col-12 m-1">
+      <div key={staff.id} className="col-6 col-md-4 col-lg-2">
+        <div className="m-1">
           <RenderStaffItem staff={staff} />
         </div>
       </div>
@@ -28,7 +28,7 @@ const StaffList = (props) => {
     <div className="container">
       <h3>Nhân Viên</h3>
       <hr />
-      <div className="row">{listStaff}</div>
+      <div className="row ">{listStaff}</div>
     </div>
   );
 };
