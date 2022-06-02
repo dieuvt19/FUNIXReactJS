@@ -9,25 +9,24 @@ import {
 import { Link } from "react-router-dom";
 import dateFormat from "dateformat";
 
-export default function StaffDetail(props) {
-  console.log(props);
-  if (props.nv != null) {
+function RenderStaff({ nv }) {
+  if (nv != null) {
     return (
-      <div className="container">
+      <div className="col-12">
         <div className="row">
-          <Breadcrumb>
-            <BreadcrumbItem>
-              <Link to="/staff">Nhân Viên</Link>
-            </BreadcrumbItem>
-            <BreadcrumbItem active={props.nv.name}></BreadcrumbItem>
-          </Breadcrumb>
-          <div className="col-12">
-            <h3>{props.nv.name}</h3>
-            <hr />
+          <div className="col-12 col-md-4">
+            <CardImg width="100%" src={nv.image} value={nv.name} />
           </div>
-        </div>
-        <div className="row mb-3">
-          <RenderStaff staff={props.nv} />
+          <div className="col-12 col-md-8">
+            <CardTitle>Họ và tên: {nv.name}</CardTitle>
+            <CardText>Ngày sinh: {dateFormat(nv.doB, "dd/mm/yyyy")}</CardText>
+            <CardText>
+              Ngày vào công ty: {dateFormat(nv.startDate, "dd/mm/yyyy")}
+            </CardText>
+            <CardText>Phòng ban: {nv.department.name}</CardText>
+            <CardText>Số ngày nghỉ còn lại: {nv.annualleave}</CardText>
+            <CardText>Số ngày đã làm thêm: {nv.overTime}</CardText>
+          </div>
         </div>
       </div>
     );
@@ -36,26 +35,21 @@ export default function StaffDetail(props) {
   }
 }
 
-function RenderStaff({ staff }) {
-  if (staff != null) {
+export default function StaffDetail(props) {
+  console.log(props);
+  if (props.nv != null) {
     return (
-      <div className="col-12">
+      <div className="container">
         <div className="row">
-          <div className="col-3">
-            <CardImg width="100%" src={staff.image} value={staff.name} />
-          </div>
-          <div className="col-9">
-            <CardTitle>Họ và tên: {staff.name}</CardTitle>
-            <CardText>
-              Ngày sinh: {dateFormat(staff.doB, "dd/mm/yyyy")}
-            </CardText>
-            <CardText>
-              Ngày vào công ty: {dateFormat(staff.startDate, "dd/mm/yyyy")}
-            </CardText>
-            <CardText>Phòng ban: {staff.department.name}</CardText>
-            <CardText>Số ngày nghỉ còn lại: {staff.annualleave}</CardText>
-            <CardText>Số ngày đã làm thêm: {staff.overTime}</CardText>
-          </div>
+          <Breadcrumb>
+            <BreadcrumbItem>
+              <Link to="/nhanvien">Nhân Viên</Link>
+            </BreadcrumbItem>
+            <BreadcrumbItem active>{props.nv.name}</BreadcrumbItem>
+          </Breadcrumb>
+        </div>
+        <div className="row mb-3">
+          <RenderStaff nv={props.nv} />
         </div>
       </div>
     );

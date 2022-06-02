@@ -10,7 +10,7 @@ import {
 import { Link } from "react-router-dom";
 
 const basicSalary = 3000000;
-const overtimeSalary = 200000 / 8;
+const overtimeSalary = 200000;
 
 function RenderSalary({ staff }) {
   console.log(staff);
@@ -38,7 +38,7 @@ const Salary = (props) => {
   const salary = props.staffs.map((ss) => {
     return (
       <div key={ss.id}>
-        <div className="col-12 lg-4 md-6 sm-12 mt-2">
+        <div className="col-12 mt-2">
           <RenderSalary staff={ss} />
         </div>
       </div>

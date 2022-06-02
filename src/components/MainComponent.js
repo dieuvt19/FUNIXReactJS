@@ -10,7 +10,7 @@ import Department from "./DepartmentsComponent";
 import Salary from "./SalaryComponent";
 
 export default function Main() {
-  const [nhanvien] = useState({
+  const [nhanvien, setNhanvien] = useState({
     staffs: STAFFS,
     departments: DEPARTMENTS,
   });
@@ -18,9 +18,11 @@ export default function Main() {
   const StaffWithId = ({ match }) => {
     return (
       <StaffDetail
-        nv={nhanvien.staffs.filter(
-          (item) => item.id === parseInt(match.params.nhanvienId, 10)[0]
-        )}
+        nv={
+          nhanvien.staffs.filter(
+            (item) => item.id === parseInt(match.params.nhanvienId, 10)
+          )[0]
+        }
       />
     );
   };
