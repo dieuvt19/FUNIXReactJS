@@ -47,6 +47,7 @@ export default function Main() {
           component={() => <Salary staffs={nhanvien.staffs} />}
         />
       </Switch>
+
       <Footer />
     </div>
   );

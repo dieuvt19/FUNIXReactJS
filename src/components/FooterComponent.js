@@ -51,11 +51,11 @@ function Footer() {
               <a className="btn btn-social-icon btn-twitter" href="#">
                 <span className="fa fa-twitter"></span>
               </a>
-              <a className="btn btn-social-icon btn-youtube" href="#">
-                <span className="fa fa-youtube-square"></span>
+              <a className="btn btn-social-icon btn-google" href="#">
+                <span className="fa fa-youtube"></span>
               </a>
               <a
-                className="btn btn-social-icon btn-envelope"
+                className="btn btn-social-icon btn-envelope "
                 href="mailto@gmail.com"
               >
                 <span className="fa fa-envelope"></span>

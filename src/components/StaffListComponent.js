@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardImg } from "reactstrap";
 import { Link } from "react-router-dom";
-import StaffDetail from "./StaffDetailComponent";
+import TypeDepartments from "./TypeDepartments";
+import { STAFFS } from "../shared/staffs";
 
 function RenderStaffItem({ staff, onClick }) {
   return (
@@ -15,6 +16,8 @@ function RenderStaffItem({ staff, onClick }) {
 }
 
 const StaffList = (props) => {
+  console.log(props);
+
   const listStaff = props.staffs.map((staff) => {
     return (
       <div key={staff.id} className="col-6 col-md-4 col-lg-2">

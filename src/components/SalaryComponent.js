@@ -50,7 +50,7 @@ const Salary = (props) => {
       <div className="row">
         <Breadcrumb>
           <BreadcrumbItem>
-            <Link to="/staff">Nhân viên</Link>
+            <Link to="/nhanvien">Nhân viên</Link>
           </BreadcrumbItem>
           <BreadcrumbItem active>Bảng Lương</BreadcrumbItem>
         </Breadcrumb>
