@@ -1,88 +1,65 @@
 import React, { useState } from "react";
 import { Card, CardImg } from "reactstrap";
 import { Link } from "react-router-dom";
-import TypeDepartments from "./TypeDepartments";
-import { STAFFS } from "../shared/staffs";
 
 function RenderStaffItem({ staff, onClick }) {
   return (
     <Card>
       <Link to={`/nhanvien/${staff.id}`}>
         <CardImg width="100%" src={staff.image} value={staff.name} />
-        <p className="col d-flex justify-content-center m-0">{staff.name}</p>
+        <p className="d-flex justify-content-center m-0">{staff.name}</p>
       </Link>
     </Card>
   );
 }
 
-function RenderStaffSearch({ staff, onClick }) {
-  return (
-    <React.Fragment>
-      {staff.map((item) => {
-        const { id, name, image } = item;
-        return (
-          <Card>
-            <Link to={`/nhanvien/${id}`}>
-              <CardImg width="100%" src={image} value={name} />
-              <p className="col d-flex justify-content-center m-0">{name}</p>
-            </Link>
-          </Card>
-        );
-      })}
-    </React.Fragment>
-  );
-}
-
 const StaffList = (props) => {
-  console.log(props);
+  const [staffs, setStaffs] = useState(props.staffs);
+  const [keyword, setKeyword] = useState("");
 
-  const listStaff = props.staffs.map((staff) => {
-    return (
-      <div key={staff.id} className="col-6 col-md-4 col-lg-2">
-        <div className="m-1">
-          <RenderStaffItem staff={staff} />
-        </div>
-      </div>
-    );
-  });
+  const handleInputChange = (e) => {
+    setKeyword(e.target.value);
+  };
 
-  const [valueSearch, setValueSearch] = useState("");
-  const searchStaff = () => {
-    if (valueSearch === "") {
+  const handleSearch = () => {
+    if (keyword === "") {
       alert("Vui lòng nhập tên nhân viên cần tìm!");
+      return false;
     } else {
-      const staffSearch = props.staffs.filter((staff) =>
-        staff.name.toLowerCase().includes(valueSearch.toLowerCase())
+      const resultSearch = props.staffs.filter((staff) =>
+        staff.name.toLowerCase().includes(keyword.toLocaleLowerCase())
       );
-      console.log(staffSearch);
-      return (
-        <div key={staffSearch.id} className="col-6 col-md-4 col-lg-2">
-          <div className="m-1">
-            <RenderStaffSearch staff={staffSearch} />
-          </div>
-        </div>
-      );
+      setStaffs(resultSearch);
     }
   };
 
   return (
     <div className="container">
-      <div className="d-flex m-2">
+      <div className="d-flex m-2 row">
         <h3 className="col-7">Nhân Viên</h3>
-        <div className="col-5">
+        <div className="row">
           <input
             type="text"
             placeholder="Tên nhân viên"
-            onChange={(e) => setValueSearch(e.target.value)}
+            value={keyword}
+            onChange={handleInputChange}
           />
-          <button className="btn btn-primary btn-xs ml-2" onClick={searchStaff}>
+          <button className="btn btn-primary ml-2" onClick={handleSearch}>
             Tìm kiếm
           </button>
         </div>
       </div>
       <hr />
       <div className="row">
-        {valueSearch === "" ? listStaff : searchStaff(valueSearch)}
+        {staffs.map((staff) => {
+          return (
+            <div key={staff.id} className="col-6 col-md-4 col-lg-2">
+              <div className="m-1">
+                <RenderStaffItem staff={staff} />
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

@@ -51,7 +51,11 @@ function Footer() {
               <a className="btn btn-social-icon btn-twitter" href="#">
                 <span className="fa fa-twitter"></span>
               </a>
-              <a className="btn btn-social-icon btn-google" href="#">
+              <a
+                className="btn btn-social-icon"
+                style={{ backgroundColor: "red", color: "white" }}
+                href="#"
+              >
                 <span className="fa fa-youtube"></span>
               </a>
               <a
