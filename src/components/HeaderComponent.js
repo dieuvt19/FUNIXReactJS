@@ -73,29 +73,30 @@ class Header extends Component {
               <Nav navbar>
                 <NavItem>
                   <NavLink className="nav-link" to="/home">
-                    <span className="fa fa-home fa-lg"></span>Home
+                    <span className="fa fa-home fa-lg"></span> Home
                   </NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink className="nav-link" to="/aboutus">
-                    <span className="fa fa-info fa-lg"></span>About Us
+                    <span className="fa fa-info fa-lg"></span> About Us
                   </NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink className="nav-link" to="/menu">
-                    <span className="fa fa-list fa-lg"></span>Menu
+                    <span className="fa fa-list fa-lg"></span> Menu
                   </NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink className="nav-link" to="/contactus">
-                    <span className="fa fa-address-card fa-lg"></span>Contact Us
+                    <span className="fa fa-address-card fa-lg"></span> Contact
+                    Us
                   </NavLink>
                 </NavItem>
               </Nav>
               <Nav className="ml-auto" navbar>
                 <NavItem>
                   <Button outline onClick={this.toggleModal}>
-                    <span className="fa fa-sign-in fa-lg">Login</span>
+                    <span className="fa fa-sign-in fa-lg"> Login</span>
                   </Button>
                 </NavItem>
               </Nav>

@@ -54,7 +54,7 @@ function Footer(props) {
               <a className="btn btn-social-icon btn-twitter" href="#">
                 <span className="fa fa-twitter"></span>
               </a>
-              <a className="btn btn-social-icon btn-youtube" href="#">
+              <a className="btn btn-social-icon btn-google" href="#">
                 <span className="fa fa-youtube-square"></span>
               </a>
               <a
