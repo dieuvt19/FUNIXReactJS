@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardText,
@@ -35,15 +35,20 @@ function RenderSalary({ staff }) {
 
 const Salary = (props) => {
   console.log(props);
-  const salary = props.staffs.map((ss) => {
-    return (
-      <div key={ss.id} className="col-12 col-md-6 col-lg-4">
-        <div className="mt-2">
-          <RenderSalary staff={ss} />
+  const [sortSalary, setSortSalary] = useState(false);
+  const salary = props.staffs
+    .sort((a, b) =>
+      sortSalary ? a.salaryScale - b.salaryScale : b.salaryScale - a.salaryScale
+    )
+    .map((ss) => {
+      return (
+        <div key={ss.id} className="col-12 col-md-6 col-lg-4">
+          <div className="mt-2">
+            <RenderSalary staff={ss} />
+          </div>
         </div>
-      </div>
-    );
-  });
+      );
+    });
 
   return (
     <div className="container">
@@ -55,6 +60,12 @@ const Salary = (props) => {
           <BreadcrumbItem active>Bảng Lương</BreadcrumbItem>
         </Breadcrumb>
       </div>
+      <button
+        className="btn btn-primary"
+        onClick={() => setSortSalary(!sortSalary)}
+      >
+        Sắp xếp theo hệ số lương
+      </button>
       <div className="row shadow mb-3">{salary}</div>
     </div>
   );
