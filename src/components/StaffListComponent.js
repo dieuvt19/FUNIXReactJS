@@ -27,7 +27,7 @@ const StaffList = (props) => {
       return false;
     } else {
       const resultSearch = props.staffs.filter((staff) =>
-        staff.name.toLowerCase().includes(keyword.toLocaleLowerCase())
+        staff.name.toLowerCase().includes(keyword.toLowerCase())
       );
       setStaffs(resultSearch);
     }
