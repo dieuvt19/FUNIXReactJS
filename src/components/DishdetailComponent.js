@@ -58,7 +58,7 @@ function RenderComments({ comments, postComment, dishId }) {
               );
             })}
           </Stagger>
-          <CommentForm dishId={dishId} postComment={postComment} />;
+          <CommentForm dishId={dishId} postComment={postComment} />
         </ul>
       </div>
     );

@@ -42,19 +42,19 @@ function Footer(props) {
           </div>
           <div className="col-12 col-sm-4 align-self-center">
             <div className="text-center">
-              <a className="btn btn-social-icon btn-google" href="#">
+              <a className="btn btn-social-icon btn-google" href="">
                 <span className="fa fa-google"></span>
               </a>
-              <a className="btn btn-social-icon btn-facebook" href="#">
+              <a className="btn btn-social-icon btn-facebook" href="">
                 <span className="fa fa-facebook"></span>
               </a>
-              <a className="btn btn-social-icon btn-linkedin" href="#">
+              <a className="btn btn-social-icon btn-linkedin" href="">
                 <span className="fa fa-linkedin"></span>
               </a>
-              <a className="btn btn-social-icon btn-twitter" href="#">
+              <a className="btn btn-social-icon btn-twitter" href="">
                 <span className="fa fa-twitter"></span>
               </a>
-              <a className="btn btn-social-icon btn-google" href="#">
+              <a className="btn btn-social-icon btn-google" href="">
                 <span className="fa fa-youtube-square"></span>
               </a>
               <a
