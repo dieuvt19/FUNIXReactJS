@@ -7,7 +7,6 @@ import {
   ModalHeader,
   ModalBody,
   Form,
-  FormGroup,
   Label,
   Input,
   Row,
@@ -33,13 +32,30 @@ function RenderStaffItem({ staff, onClick }) {
 
 const StaffList = (props) => {
   const [staffs, setStaffs] = useState(props.staffs);
+  console.log(staffs);
   const [keyword, setKeyword] = useState("");
   const [name, setName] = useState("");
+  const [doB, setDoB] = useState("");
+  const [salaryScale, setSalaryScale] = useState(1);
+  const [startDate, setStartDate] = useState("");
+  const [department, setDepartment] = useState("Sale");
+  const [annualLeave, setAnnualLeave] = useState(0);
+  const [overTime, setOverTime] = useState(0);
+  const [salary, setSalary] = useState("");
+  const [id, setId] = useState("");
 
-  const newStaff = {
-    name: name,
-  };
-  console.log(newStaff);
+  // const newStaff1 = {
+  //   name: name,
+  //   doB: doB,
+  //   salaryScale: salaryScale,
+  //   startDate: startDate,
+  //   department: department,
+  //   annualLeave: annualLeave,
+  //   overTime: overTime,
+  //   salary: salary,
+  //   image: "../public/assets/images/alberto.png",
+  // };
+  // console.log(newStaff1);
 
   // Modal open state
   const [modal, setModal] = useState(false);
@@ -47,10 +63,23 @@ const StaffList = (props) => {
   // Toggle for Modal
   const toggle = () => setModal(!modal);
 
-  const onChangeName = (e) => {
-    setName(e.target.value);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const newStaff = {
+      id: staffs.length,
+      name,
+      doB,
+      salaryScale,
+      startDate,
+      department,
+      annualLeave,
+      overTime,
+      image: "/assets/images/alberto.png",
+    };
+    setStaffs([...staffs, newStaff]);
   };
 
+  // Get value from search input
   const handleInputChange = (e) => {
     setKeyword(e.target.value);
   };
@@ -83,7 +112,7 @@ const StaffList = (props) => {
               <Modal isOpen={modal} toggle={toggle}>
                 <ModalHeader toggle={toggle}>Thêm Nhân Viên</ModalHeader>
                 <ModalBody>
-                  <Form>
+                  <Form onSubmit={handleSubmit}>
                     <Row className="control-group">
                       <Label htmlFor="name" md={4}>
                         Tên
@@ -93,48 +122,121 @@ const StaffList = (props) => {
                           type="text"
                           id="name"
                           name="name"
+                          value={name}
                           className="form-control"
-                          onChange={onChangeName}
+                          onChange={(e) => {
+                            setName(e.target.value);
+                          }}
                         />
                       </Col>
                     </Row>
-                    {/* <FormGroup>
-                      <Label htmlFor="doB">Ngày sinh</Label>
-                      <Input type="text" name="doB" id="doB" />
-                    </FormGroup>
-                    <FormGroup>
-                      <Label htmlFor="startDate">Ngày vào công ty</Label>
-                      <Input type="text" name="startDate" id="startDate" />
-                    </FormGroup>
-                    <FormGroup>
-                      <Label htmlFor="department">Phòng ban</Label>
-                      <Input type="text" name="department" id="department" />
-                    </FormGroup>
-                    <FormGroup>
-                      <Label htmlFor="salaryScale">Hệ số lương</Label>
-                      <Input
-                        type="number"
-                        name="salaryScale"
-                        id="salaryScale"
-                      />
-                    </FormGroup>
-                    <FormGroup>
-                      <Label htmlFor="annualLeave">Số ngày nghỉ còn lại</Label>
-                      <Input
-                        type="number"
-                        name="annualLeave"
-                        id="annualLeave"
-                      />
-                    </FormGroup>
-                    <FormGroup>
-                      <Label htmlFor="annualLeave">Số ngày đã làm thêm</Label>
-                      <Input
-                        type="number"
-                        name="annualLeave"
-                        id="annualLeave"
-                      />
-                    </FormGroup> */}
-                    <Button color="primary" onClick={toggle}>
+                    <Row className="control-group">
+                      <Label htmlFor="doB" md={4}>
+                        Ngày sinh
+                      </Label>
+                      <Col md={8}>
+                        <Input
+                          type="date"
+                          id="doB"
+                          name="doB"
+                          className="form-control"
+                          onChange={(e) => {
+                            setDoB(e.target.value);
+                          }}
+                        />
+                      </Col>
+                    </Row>
+                    <Row className="control-group">
+                      <Label htmlFor="startDate" md={4}>
+                        Ngày vào công ty
+                      </Label>
+                      <Col md={8}>
+                        <Input
+                          type="date"
+                          id="startDate"
+                          name="startDate"
+                          className="form-control"
+                          onChange={(e) => {
+                            setStartDate(e.target.value);
+                          }}
+                        />
+                      </Col>
+                    </Row>
+                    <Row className="control-group">
+                      <Label htmlFor="department" md={4}>
+                        Phòng ban
+                      </Label>
+                      <Col md={8}>
+                        <Input
+                          type="select"
+                          id="department"
+                          name="department"
+                          value={department}
+                          className="form-control"
+                          onChange={(e) => {
+                            setDepartment(e.target.value);
+                          }}
+                        >
+                          <option value="sale">Sale</option>
+                          <option value="HR">HR</option>
+                          <option value="marketing">Marketing</option>
+                          <option value="it">IT</option>
+                          <option value="finance">Finance</option>
+                        </Input>
+                      </Col>
+                    </Row>
+                    <Row className="control-group">
+                      <Label htmlFor="salaryScale" md={4}>
+                        Hệ số lương
+                      </Label>
+                      <Col md={8}>
+                        <Input
+                          type="number"
+                          id="salaryScale"
+                          name="salaryScale"
+                          value={1}
+                          className="form-control"
+                          onChange={(e) => {
+                            setSalaryScale(e.target.value);
+                          }}
+                        />
+                      </Col>
+                    </Row>
+                    <Row className="control-group">
+                      <Label htmlFor="annualLeave" md={4}>
+                        Số ngày nghỉ còn lại
+                      </Label>
+                      <Col md={8}>
+                        <Input
+                          type="number"
+                          id="annualLeave"
+                          name="annualLeave"
+                          value={annualLeave}
+                          className="form-control"
+                          onChange={(e) => {
+                            setAnnualLeave(e.target.value);
+                          }}
+                        />
+                      </Col>
+                    </Row>
+                    <Row className="control-group">
+                      <Label htmlFor="overTime" md={4}>
+                        Số ngày đã làm thêm
+                      </Label>
+                      <Col md={8}>
+                        <Input
+                          type="number"
+                          id="overTime"
+                          name="overTime"
+                          value={overTime}
+                          className="form-control"
+                          onChange={(e) => {
+                            setOverTime(e.target.value);
+                          }}
+                        />
+                      </Col>
+                    </Row>
+                    <Button color="primary" onClick={toggle} type="submit">
                       Thêm
                     </Button>
                   </Form>
