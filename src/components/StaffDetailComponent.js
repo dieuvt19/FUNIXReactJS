@@ -24,7 +24,7 @@ function RenderStaff({ nv }) {
               Ngày vào công ty: {dateFormat(nv.startDate, "dd/mm/yyyy")}
             </CardText>
             <CardText>Phòng ban: {nv.department.name}</CardText>
-            <CardText>Số ngày nghỉ còn lại: {nv.annualleave}</CardText>
+            <CardText>Số ngày nghỉ còn lại: {nv.annualLeave}</CardText>
             <CardText>Số ngày đã làm thêm: {nv.overTime}</CardText>
           </div>
         </div>

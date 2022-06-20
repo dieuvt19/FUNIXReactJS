@@ -39,30 +39,38 @@ function Footer() {
           </div>
           <div className="col-12 col-sm-4 align-self-center">
             <div className="text-center">
-              <a className="btn btn-social-icon btn-google" href="#">
-                <span className="fa fa-google"></span>
-              </a>
-              <a className="btn btn-social-icon btn-facebook" href="#">
-                <span className="fa fa-facebook"></span>
-              </a>
-              <a className="btn btn-social-icon btn-linkedin" href="#">
-                <span className="fa fa-linkedin"></span>
-              </a>
-              <a className="btn btn-social-icon btn-twitter" href="#">
-                <span className="fa fa-twitter"></span>
+              <a
+                className="btn btn-social-icon btn-google"
+                href="http://google.com/+"
+              >
+                <i className="fa fa-google-plus"></i>
               </a>
               <a
-                className="btn btn-social-icon"
-                style={{ backgroundColor: "red", color: "white" }}
-                href="#"
+                className="btn btn-social-icon btn-facebook"
+                href="http://www.facebook.com/profile.php?id="
               >
-                <span className="fa fa-youtube"></span>
+                <i className="fa fa-facebook"></i>
               </a>
               <a
-                className="btn btn-social-icon btn-envelope "
-                href="mailto@gmail.com"
+                className="btn btn-social-icon btn-linkedin"
+                href="http://www.linkedin.com/in/"
               >
-                <span className="fa fa-envelope"></span>
+                <i className="fa fa-linkedin"></i>
+              </a>
+              <a
+                className="btn btn-social-icon btn-twitter"
+                href="http://twitter.com/"
+              >
+                <i className="fa fa-twitter"></i>
+              </a>
+              <a
+                className="btn btn-social-icon btn-google"
+                href="http://youtube.com/"
+              >
+                <i className="fa fa-youtube"></i>
+              </a>
+              <a className="btn btn-social-icon" href="mailto:">
+                <i className="fa fa-envelope-o"></i>
               </a>
             </div>
           </div>
