@@ -12,8 +12,17 @@ import Salary from "./SalaryComponent";
 export default function Main() {
   const [nhanvien, setNhanvien] = useState({
     staffs: STAFFS,
+  });
+  console.log(nhanvien.staffs);
+  const [department, setDepartment] = useState({
     departments: DEPARTMENTS,
   });
+
+  // const updateStaffs = localStorage.getItem("staffs");
+
+  const addStaff = (newStaff) => {
+    setNhanvien(nhanvien.staffs.push(newStaff));
+  };
 
   const StaffWithId = ({ match }) => {
     return (
@@ -34,7 +43,9 @@ export default function Main() {
         <Route
           exact
           path="/nhanvien"
-          component={() => <StaffList staffs={nhanvien.staffs} />}
+          component={() => (
+            <StaffList staffs={nhanvien.staffs} addStaff={addStaff} />
+          )}
         />
         <Route path="/nhanvien/:nhanvienId" component={StaffWithId} />
         <Route

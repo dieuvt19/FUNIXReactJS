@@ -11,13 +11,14 @@ import {
   Input,
   Row,
   Col,
+  FormFeedback,
 } from "reactstrap";
 import { Link } from "react-router-dom";
 
-const required = (val) => val && val.length;
-const maxLength = (len) => (val) => !val || val.length <= len;
-const minLength = (len) => (val) => val && val.length >= len;
-const isNumber = (val) => !isNaN(Number(val));
+// const required = (val) => val && val.length;
+// const maxLength = (len) => (val) => !val || val.length <= len;
+// const minLength = (len) => (val) => val && val.length >= len;
+// const isNumber = (val) => !isNaN(Number(val));
 
 function RenderStaffItem({ staff, onClick }) {
   return (
@@ -31,6 +32,7 @@ function RenderStaffItem({ staff, onClick }) {
 }
 
 const StaffList = (props) => {
+  console.log(props);
   const [staffs, setStaffs] = useState(props.staffs);
   console.log(staffs);
   const [keyword, setKeyword] = useState("");
@@ -42,20 +44,8 @@ const StaffList = (props) => {
   const [annualLeave, setAnnualLeave] = useState(0);
   const [overTime, setOverTime] = useState(0);
   const [salary, setSalary] = useState("");
-  const [id, setId] = useState("");
 
-  // const newStaff1 = {
-  //   name: name,
-  //   doB: doB,
-  //   salaryScale: salaryScale,
-  //   startDate: startDate,
-  //   department: department,
-  //   annualLeave: annualLeave,
-  //   overTime: overTime,
-  //   salary: salary,
-  //   image: "../public/assets/images/alberto.png",
-  // };
-  // console.log(newStaff1);
+  localStorage.getItem("staffs");
 
   // Modal open state
   const [modal, setModal] = useState(false);
@@ -63,8 +53,20 @@ const StaffList = (props) => {
   // Toggle for Modal
   const toggle = () => setModal(!modal);
 
+  //validator form
+  // const validated = (name, startDate, doB) => {
+  //   const errors = {
+  //     name: "",
+  //     startDate: "",
+  //     doB: "",
+  //   };
+  // };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (name === "") {
+      return false;
+    }
     const newStaff = {
       id: staffs.length,
       name,
@@ -77,7 +79,11 @@ const StaffList = (props) => {
       image: "/assets/images/alberto.png",
     };
     setStaffs([...staffs, newStaff]);
+    // console.log(staffs);
+    props.addStaff(newStaff);
   };
+
+  localStorage.setItem("staffs", JSON.stringify(staffs));
 
   // Get value from search input
   const handleInputChange = (e) => {
@@ -128,6 +134,9 @@ const StaffList = (props) => {
                             setName(e.target.value);
                           }}
                         />
+                        <FormFeedback>
+                          {name === "" ? "Yêu cầu nhập" : null}
+                        </FormFeedback>
                       </Col>
                     </Row>
                     <Row className="control-group">
