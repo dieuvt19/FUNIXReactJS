@@ -15,11 +15,6 @@ import {
 } from "reactstrap";
 import { Link } from "react-router-dom";
 
-// const required = (val) => val && val.length;
-// const maxLength = (len) => (val) => !val || val.length <= len;
-// const minLength = (len) => (val) => val && val.length >= len;
-// const isNumber = (val) => !isNaN(Number(val));
-
 function RenderStaffItem({ staff, onClick }) {
   return (
     <Card>
@@ -43,47 +38,21 @@ const StaffList = (props) => {
   const [department, setDepartment] = useState("Sale");
   const [annualLeave, setAnnualLeave] = useState(0);
   const [overTime, setOverTime] = useState(0);
-  const [salary, setSalary] = useState("");
-
-  localStorage.getItem("staffs");
-
+  const [touched, setTouched] = useState({
+    name: false,
+    doB: false,
+    startDate: false,
+    department: false,
+    salaryScale: false,
+    annualLeave: false,
+    overTime: false,
+  });
+  const [errorsMsg, setErrorsMsg] = useState({});
   // Modal open state
   const [modal, setModal] = useState(false);
 
   // Toggle for Modal
   const toggle = () => setModal(!modal);
-
-  //validator form
-  // const validated = (name, startDate, doB) => {
-  //   const errors = {
-  //     name: "",
-  //     startDate: "",
-  //     doB: "",
-  //   };
-  // };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (name === "") {
-      return false;
-    }
-    const newStaff = {
-      id: staffs.length,
-      name,
-      doB,
-      salaryScale,
-      startDate,
-      department,
-      annualLeave,
-      overTime,
-      image: "/assets/images/alberto.png",
-    };
-    setStaffs([...staffs, newStaff]);
-    // console.log(staffs);
-    props.addStaff(newStaff);
-  };
-
-  localStorage.setItem("staffs", JSON.stringify(staffs));
 
   // Get value from search input
   const handleInputChange = (e) => {
@@ -103,10 +72,89 @@ const StaffList = (props) => {
     }
   };
 
+  // validator function
+
+  const handleBlur = (field) => (evt) => {
+    setTouched({ ...touched, [field]: true });
+  };
+
+  function validate(
+    name,
+    doB,
+    startDate,
+    department,
+    salaryScale,
+    annualLeave,
+    overTime
+  ) {
+    const errors = {
+      name: "",
+      doB: "",
+      startDate: "",
+      department: "",
+      salaryScale: "",
+      annualLeave: "",
+      overTime: "",
+    };
+
+    if (touched.name && name.length < 1) errors.name = "Yêu cầu nhập";
+    else if (touched.name && name.length < 3)
+      errors.name = "Tên nên nhiều hơn 2 ký tự";
+    else if (touched.name && name.length > 30)
+      errors.name = "Tên nên dưới 30 ký tự";
+
+    if (touched.doB && doB.length < 1) errors.doB = "Yêu cầu nhập";
+
+    if (touched.startDate && startDate.length < 1)
+      errors.startDate = "Yêu cầu nhập";
+
+    return errors;
+  }
+
+  const errors = validate(
+    name,
+    doB,
+    startDate,
+    department,
+    salaryScale,
+    annualLeave,
+    overTime
+  );
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const newStaff = {
+      id: staffs.length,
+      name,
+      doB,
+      salaryScale,
+      startDate,
+      department,
+      annualLeave,
+      overTime,
+      image: "/assets/images/alberto.png",
+    };
+    if (
+      newStaff.name === "" &&
+      newStaff.doB === "" &&
+      newStaff.startDate === ""
+    ) {
+      setErrorsMsg({
+        ...errorsMsg,
+        name: "Yêu cầu nhập",
+        doB: "Yêu cầu nhập",
+        startDate: "Yêu cầu nhập",
+      });
+      return false;
+    }
+    props.addStaff(newStaff);
+  };
+
   return (
     <div className="container">
       <div className="row">
-        <div className="col-12 col-md-6 mt-3">
+        <div className="col-12 col-md-6 mt-1">
           <div className="row">
             <div className="col-10 col-md-10">
               <h3>Nhân Viên</h3>
@@ -119,7 +167,7 @@ const StaffList = (props) => {
                 <ModalHeader toggle={toggle}>Thêm Nhân Viên</ModalHeader>
                 <ModalBody>
                   <Form onSubmit={handleSubmit}>
-                    <Row className="control-group">
+                    <Row className="control-group pb-3">
                       <Label htmlFor="name" md={4}>
                         Tên
                       </Label>
@@ -128,18 +176,21 @@ const StaffList = (props) => {
                           type="text"
                           id="name"
                           name="name"
-                          value={name}
                           className="form-control"
+                          value={name}
+                          invalid={errors.name !== ""}
+                          onBlur={handleBlur("name")}
                           onChange={(e) => {
                             setName(e.target.value);
                           }}
                         />
-                        <FormFeedback>
-                          {name === "" ? "Yêu cầu nhập" : null}
-                        </FormFeedback>
+                        <div className="danger">
+                          {!touched.name ? errorsMsg.name : null}
+                        </div>
+                        <FormFeedback>{errors.name}</FormFeedback>
                       </Col>
                     </Row>
-                    <Row className="control-group">
+                    <Row className="control-group pb-3">
                       <Label htmlFor="doB" md={4}>
                         Ngày sinh
                       </Label>
@@ -149,13 +200,19 @@ const StaffList = (props) => {
                           id="doB"
                           name="doB"
                           className="form-control"
+                          invalid={errors.doB !== ""}
+                          onBlur={handleBlur("doB")}
                           onChange={(e) => {
                             setDoB(e.target.value);
                           }}
                         />
+                        <div className="danger">
+                          {!touched.doB ? errorsMsg.doB : null}
+                        </div>
+                        <FormFeedback>{errors.doB}</FormFeedback>
                       </Col>
                     </Row>
-                    <Row className="control-group">
+                    <Row className="control-group pb-3">
                       <Label htmlFor="startDate" md={4}>
                         Ngày vào công ty
                       </Label>
@@ -164,14 +221,22 @@ const StaffList = (props) => {
                           type="date"
                           id="startDate"
                           name="startDate"
+                          value={startDate}
                           className="form-control"
+                          invalid={errors.startDate !== ""}
+                          onBlur={handleBlur("startDate")}
                           onChange={(e) => {
                             setStartDate(e.target.value);
                           }}
                         />
+                        <div className="danger">
+                          {!touched.startDate ? errorsMsg.startDate : null}
+                        </div>
+
+                        <FormFeedback>{errors.startDate}</FormFeedback>
                       </Col>
                     </Row>
-                    <Row className="control-group">
+                    <Row className="control-group pb-3">
                       <Label htmlFor="department" md={4}>
                         Phòng ban
                       </Label>
@@ -186,15 +251,15 @@ const StaffList = (props) => {
                             setDepartment(e.target.value);
                           }}
                         >
-                          <option value="sale">Sale</option>
+                          <option value="Sale">Sale</option>
                           <option value="HR">HR</option>
-                          <option value="marketing">Marketing</option>
-                          <option value="it">IT</option>
-                          <option value="finance">Finance</option>
+                          <option value="Marketing">Marketing</option>
+                          <option value="IT">IT</option>
+                          <option value="Finance">Finance</option>
                         </Input>
                       </Col>
                     </Row>
-                    <Row className="control-group">
+                    <Row className="control-group pb-3">
                       <Label htmlFor="salaryScale" md={4}>
                         Hệ số lương
                       </Label>
@@ -203,7 +268,7 @@ const StaffList = (props) => {
                           type="number"
                           id="salaryScale"
                           name="salaryScale"
-                          value={1}
+                          value={salaryScale}
                           className="form-control"
                           onChange={(e) => {
                             setSalaryScale(e.target.value);
@@ -211,7 +276,7 @@ const StaffList = (props) => {
                         />
                       </Col>
                     </Row>
-                    <Row className="control-group">
+                    <Row className="control-group pb-3">
                       <Label htmlFor="annualLeave" md={4}>
                         Số ngày nghỉ còn lại
                       </Label>
@@ -228,7 +293,7 @@ const StaffList = (props) => {
                         />
                       </Col>
                     </Row>
-                    <Row className="control-group">
+                    <Row className="control-group pb-3">
                       <Label htmlFor="overTime" md={4}>
                         Số ngày đã làm thêm
                       </Label>
@@ -245,7 +310,7 @@ const StaffList = (props) => {
                         />
                       </Col>
                     </Row>
-                    <Button color="primary" onClick={toggle} type="submit">
+                    <Button color="primary" type="submit">
                       Thêm
                     </Button>
                   </Form>
@@ -254,17 +319,18 @@ const StaffList = (props) => {
             </div>
           </div>
         </div>
-        <div className="col-12 col-md-6 mt-3">
+        <div className="col-12 col-md-6">
           <form className="form-group row" onSubmit={handleSearch}>
             <div className="col-8 col-md-8 pt-2">
-              <input
+              <Input
                 type="text"
                 placeholder="Tên nhân viên"
+                className="input-with"
                 value={keyword}
                 onChange={handleInputChange}
               />
             </div>
-            <div className="col-4 col-md-4 p-1">
+            <div className="col-4 col-md-4 mt-1">
               <button className="btn btn-primary" type="submit" value="Submit">
                 Tìm kiếm
               </button>

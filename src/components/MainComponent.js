@@ -12,16 +12,14 @@ import Salary from "./SalaryComponent";
 export default function Main() {
   const [nhanvien, setNhanvien] = useState({
     staffs: STAFFS,
-  });
-  console.log(nhanvien.staffs);
-  const [department, setDepartment] = useState({
     departments: DEPARTMENTS,
   });
+  console.log(nhanvien.staffs);
 
   // const updateStaffs = localStorage.getItem("staffs");
 
-  const addStaff = (newStaff) => {
-    setNhanvien(nhanvien.staffs.push(newStaff));
+  const addStaff = (staff) => {
+    setNhanvien({ ...nhanvien, staffs: [...nhanvien.staffs, staff] });
   };
 
   const StaffWithId = ({ match }) => {

@@ -49,3 +49,12 @@ address {
   transform: translateX(100%);
   transition: all 300ms ease-out;
 }
+
+.danger {
+  font-size: 80%;
+  color: #dc3545;
+}
+
+.inp-with {
+  display: inline-block;
+}
