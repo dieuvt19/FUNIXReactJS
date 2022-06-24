@@ -46,7 +46,7 @@ function RenderComments({ comments }) {
             );
           })}
         </ul>
-<CommentForm dishId={dishId} addComment={addComment} />
+
       </div>
     );
   } else {
