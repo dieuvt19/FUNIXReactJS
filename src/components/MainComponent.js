@@ -14,9 +14,6 @@ export default function Main() {
     staffs: STAFFS,
     departments: DEPARTMENTS,
   });
-  console.log(nhanvien.staffs);
-
-  // const updateStaffs = localStorage.getItem("staffs");
 
   const addStaff = (staff) => {
     setNhanvien({ ...nhanvien, staffs: [...nhanvien.staffs, staff] });

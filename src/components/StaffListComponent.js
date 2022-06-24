@@ -27,9 +27,7 @@ function RenderStaffItem({ staff, onClick }) {
 }
 
 const StaffList = (props) => {
-  console.log(props);
   const [staffs, setStaffs] = useState(props.staffs);
-  console.log(staffs);
   const [keyword, setKeyword] = useState("");
   const [name, setName] = useState("");
   const [doB, setDoB] = useState("");
@@ -325,7 +323,6 @@ const StaffList = (props) => {
               <Input
                 type="text"
                 placeholder="Tên nhân viên"
-                className="input-with"
                 value={keyword}
                 onChange={handleInputChange}
               />
