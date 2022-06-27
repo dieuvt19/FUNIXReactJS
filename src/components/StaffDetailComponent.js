@@ -45,7 +45,7 @@ export default function StaffDetail(props) {
         <div className="row">
           <Breadcrumb>
             <BreadcrumbItem>
-              <Link to="/nhanvien">Nhân Viên</Link>
+              <Link to="/staff">Nhân Viên</Link>
             </BreadcrumbItem>
             <BreadcrumbItem active>{props.nv.name}</BreadcrumbItem>
           </Breadcrumb>
