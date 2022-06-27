@@ -1,32 +1,55 @@
 import React from "react";
-import { Switch, Route } from "react-router-dom";
-import { useState } from "react";
+import { Switch, Route, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+
 import Header from "./HeaderComponent";
 import Footer from "./FooterComponent";
 import StaffList from "./StaffListComponent";
-import { STAFFS, DEPARTMENTS } from "../shared/staffs";
 import StaffDetail from "./StaffDetailComponent";
 import Department from "./DepartmentsComponent";
 import Salary from "./SalaryComponent";
+import { addStaff } from "../redux/ActionCreators";
 
-export default function Main() {
-  const [nhanvien, setNhanvien] = useState({
-    staffs: STAFFS,
-    departments: DEPARTMENTS,
-  });
-
-  const addStaff = (staff) => {
-    setNhanvien({ ...nhanvien, staffs: [...nhanvien.staffs, staff] });
+const mapStateToProps = (state) => {
+  return {
+    staffs: state.staffs,
+    departments: state.departments,
   };
+};
 
+const mapDispatchToProps = (dispatch) => ({
+  addStaff: (
+    name,
+    doB,
+    startDate,
+    department,
+    salaryScale,
+    overTime,
+    annualLeave
+  ) =>
+    dispatch(
+      addStaff(
+        name,
+        doB,
+        startDate,
+        department,
+        salaryScale,
+        overTime,
+        annualLeave
+      )
+    ),
+});
+
+function Main(props) {
   const StaffWithId = ({ match }) => {
     return (
       <StaffDetail
         nv={
-          nhanvien.staffs.filter(
-            (item) => item.id === parseInt(match.params.nhanvienId, 10)
+          props.staffs.filter(
+            (item) => item.id === parseInt(match.params.staffId, 10)
           )[0]
         }
+        addStaff={props.addStaff}
       />
     );
   };
@@ -37,23 +60,25 @@ export default function Main() {
       <Switch>
         <Route
           exact
-          path="/nhanvien"
+          path="/staff"
           component={() => (
-            <StaffList staffs={nhanvien.staffs} addStaff={addStaff} />
+            <StaffList staffs={props.staffs} addStaff={props.addStaff} />
           )}
         />
-        <Route path="/nhanvien/:nhanvienId" component={StaffWithId} />
+        <Route path="/staff/:staffId" component={StaffWithId} />
         <Route
           exact
-          path="/phongban"
-          component={() => <Department dept={nhanvien.departments} />}
+          path="/department"
+          component={() => <Department dept={props.departments} />}
         />
         <Route
-          path="/bangluong"
-          component={() => <Salary staffs={nhanvien.staffs} />}
+          path="/salary"
+          component={() => <Salary staffs={props.staffs} />}
         />
       </Switch>
       <Footer />
     </div>
   );
 }
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));

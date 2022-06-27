@@ -6,19 +6,23 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
-  Form,
   Label,
   Input,
   Row,
   Col,
-  FormFeedback,
 } from "reactstrap";
 import { Link } from "react-router-dom";
+import { Control, LocalForm, Errors } from "react-redux-form";
 
-function RenderStaffItem({ staff, onClick }) {
+const required = (val) => val && val.length;
+const maxLength = (len) => (val) => !val || val.length <= len;
+const minLength = (len) => (val) => val && val.length >= len;
+// const isNumber = (val) => !isNaN(Number(val));
+
+function RenderStaffItem({ staff }) {
   return (
     <Card>
-      <Link to={`/nhanvien/${staff.id}`}>
+      <Link to={`/staff/${staff.id}`}>
         <CardImg width="100%" src={staff.image} value={staff.name} />
         <p className="d-flex justify-content-center m-0">{staff.name}</p>
       </Link>
@@ -27,25 +31,14 @@ function RenderStaffItem({ staff, onClick }) {
 }
 
 const StaffList = (props) => {
+  console.log(props);
   const [staffs, setStaffs] = useState(props.staffs);
   const [keyword, setKeyword] = useState("");
-  const [name, setName] = useState("");
-  const [doB, setDoB] = useState("");
-  const [salaryScale, setSalaryScale] = useState(1);
-  const [startDate, setStartDate] = useState("");
-  const [department, setDepartment] = useState("Sale");
-  const [annualLeave, setAnnualLeave] = useState(0);
-  const [overTime, setOverTime] = useState(0);
-  const [touched, setTouched] = useState({
-    name: false,
-    doB: false,
-    startDate: false,
-    department: false,
-    salaryScale: false,
-    annualLeave: false,
-    overTime: false,
-  });
-  const [errorsMsg, setErrorsMsg] = useState({});
+
+  const required = (val) => val && val.length;
+  const maxLength = (len) => (val) => !val || val.length <= len;
+  const minLength = (len) => (val) => val && val.length >= len;
+
   // Modal open state
   const [modal, setModal] = useState(false);
 
@@ -70,83 +63,18 @@ const StaffList = (props) => {
     }
   };
 
-  // validator function
-
-  const handleBlur = (field) => (evt) => {
-    setTouched({ ...touched, [field]: true });
-  };
-
-  function validate(
-    name,
-    doB,
-    startDate,
-    department,
-    salaryScale,
-    annualLeave,
-    overTime
-  ) {
-    const errors = {
-      name: "",
-      doB: "",
-      startDate: "",
-      department: "",
-      salaryScale: "",
-      annualLeave: "",
-      overTime: "",
-    };
-
-    if (touched.name && name.length < 1) errors.name = "Yêu cầu nhập";
-    else if (touched.name && name.length < 3)
-      errors.name = "Tên nên nhiều hơn 2 ký tự";
-    else if (touched.name && name.length > 30)
-      errors.name = "Tên nên dưới 30 ký tự";
-
-    if (touched.doB && doB.length < 1) errors.doB = "Yêu cầu nhập";
-
-    if (touched.startDate && startDate.length < 1)
-      errors.startDate = "Yêu cầu nhập";
-
-    return errors;
-  }
-
-  const errors = validate(
-    name,
-    doB,
-    startDate,
-    department,
-    salaryScale,
-    annualLeave,
-    overTime
-  );
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const newStaff = {
-      id: staffs.length,
-      name,
-      doB,
-      salaryScale,
-      startDate,
-      department,
-      annualLeave,
-      overTime,
-      image: "/assets/images/alberto.png",
-    };
-    if (
-      newStaff.name === "" &&
-      newStaff.doB === "" &&
-      newStaff.startDate === ""
-    ) {
-      setErrorsMsg({
-        ...errorsMsg,
-        name: "Yêu cầu nhập",
-        doB: "Yêu cầu nhập",
-        startDate: "Yêu cầu nhập",
-      });
-      return false;
-    }
-    props.addStaff(newStaff);
+  const handleSubmit = (values) => {
+    toggle();
+    props.addStaff(
+      values.name,
+      values.doB,
+      values.startDate,
+      values.department,
+      values.salaryScale,
+      values.annualLeave,
+      values.overTime
+    );
+    console.log(props.staffs);
   };
 
   return (
@@ -164,28 +92,34 @@ const StaffList = (props) => {
               <Modal isOpen={modal} toggle={toggle}>
                 <ModalHeader toggle={toggle}>Thêm Nhân Viên</ModalHeader>
                 <ModalBody>
-                  <Form onSubmit={handleSubmit}>
+                  <LocalForm onSubmit={(value) => handleSubmit(value)}>
                     <Row className="control-group pb-3">
                       <Label htmlFor="name" md={4}>
                         Tên
                       </Label>
                       <Col md={8}>
-                        <Input
-                          type="text"
+                        <Control.text
+                          model=".name"
+                          className="form-control"
                           id="name"
                           name="name"
-                          className="form-control"
-                          value={name}
-                          invalid={errors.name !== ""}
-                          onBlur={handleBlur("name")}
-                          onChange={(e) => {
-                            setName(e.target.value);
+                          validators={{
+                            required,
+                            minLength: minLength(3),
+                            maxLength: maxLength(30),
                           }}
                         />
-                        <div className="danger">
-                          {!touched.name ? errorsMsg.name : null}
-                        </div>
-                        <FormFeedback>{errors.name}</FormFeedback>
+
+                        <Errors
+                          model=".name"
+                          className="text-danger"
+                          show="touched"
+                          messages={{
+                            required: "Yêu cầu nhập",
+                            minLength: "Tên nên nhiều hơn 2 ký tự",
+                            maxLength: "Tên nên ít hơn 30 ký tự",
+                          }}
+                        />
                       </Col>
                     </Row>
                     <Row className="control-group pb-3">
@@ -193,21 +127,24 @@ const StaffList = (props) => {
                         Ngày sinh
                       </Label>
                       <Col md={8}>
-                        <Input
+                        <Control
                           type="date"
+                          model=".doB"
                           id="doB"
                           name="doB"
                           className="form-control"
-                          invalid={errors.doB !== ""}
-                          onBlur={handleBlur("doB")}
-                          onChange={(e) => {
-                            setDoB(e.target.value);
+                          validators={{
+                            required,
                           }}
                         />
-                        <div className="danger">
-                          {!touched.doB ? errorsMsg.doB : null}
-                        </div>
-                        <FormFeedback>{errors.doB}</FormFeedback>
+                        <Errors
+                          model=".doB"
+                          className="text-danger"
+                          show="touched"
+                          messages={{
+                            required: "Yêu cầu nhập",
+                          }}
+                        />
                       </Col>
                     </Row>
                     <Row className="control-group pb-3">
@@ -215,23 +152,24 @@ const StaffList = (props) => {
                         Ngày vào công ty
                       </Label>
                       <Col md={8}>
-                        <Input
+                        <Control
                           type="date"
+                          model=".startDate"
                           id="startDate"
                           name="startDate"
-                          value={startDate}
                           className="form-control"
-                          invalid={errors.startDate !== ""}
-                          onBlur={handleBlur("startDate")}
-                          onChange={(e) => {
-                            setStartDate(e.target.value);
+                          validators={{
+                            required,
                           }}
                         />
-                        <div className="danger">
-                          {!touched.startDate ? errorsMsg.startDate : null}
-                        </div>
-
-                        <FormFeedback>{errors.startDate}</FormFeedback>
+                        <Errors
+                          model=".startDate"
+                          className="text-danger"
+                          show="touched"
+                          messages={{
+                            required: "Yêu cầu nhập",
+                          }}
+                        />
                       </Col>
                     </Row>
                     <Row className="control-group pb-3">
@@ -239,22 +177,19 @@ const StaffList = (props) => {
                         Phòng ban
                       </Label>
                       <Col md={8}>
-                        <Input
-                          type="select"
+                        <Control.select
+                          model=".department"
                           id="department"
                           name="department"
-                          value={department}
                           className="form-control"
-                          onChange={(e) => {
-                            setDepartment(e.target.value);
-                          }}
+                          defaultValue="Sale"
                         >
                           <option value="Sale">Sale</option>
                           <option value="HR">HR</option>
                           <option value="Marketing">Marketing</option>
                           <option value="IT">IT</option>
                           <option value="Finance">Finance</option>
-                        </Input>
+                        </Control.select>
                       </Col>
                     </Row>
                     <Row className="control-group pb-3">
@@ -262,15 +197,13 @@ const StaffList = (props) => {
                         Hệ số lương
                       </Label>
                       <Col md={8}>
-                        <Input
+                        <Control
                           type="number"
+                          model=".salaryScale"
                           id="salaryScale"
                           name="salaryScale"
-                          value={salaryScale}
                           className="form-control"
-                          onChange={(e) => {
-                            setSalaryScale(e.target.value);
-                          }}
+                          defaultValue={1}
                         />
                       </Col>
                     </Row>
@@ -279,15 +212,13 @@ const StaffList = (props) => {
                         Số ngày nghỉ còn lại
                       </Label>
                       <Col md={8}>
-                        <Input
+                        <Control
                           type="number"
+                          model=".annualLeave"
                           id="annualLeave"
                           name="annualLeave"
-                          value={annualLeave}
                           className="form-control"
-                          onChange={(e) => {
-                            setAnnualLeave(e.target.value);
-                          }}
+                          defaultValue={0}
                         />
                       </Col>
                     </Row>
@@ -296,22 +227,20 @@ const StaffList = (props) => {
                         Số ngày đã làm thêm
                       </Label>
                       <Col md={8}>
-                        <Input
+                        <Control
                           type="number"
+                          model=".overTime"
                           id="overTime"
                           name="overTime"
-                          value={overTime}
                           className="form-control"
-                          onChange={(e) => {
-                            setOverTime(e.target.value);
-                          }}
+                          defaultValue={0}
                         />
                       </Col>
                     </Row>
                     <Button color="primary" type="submit">
                       Thêm
                     </Button>
-                  </Form>
+                  </LocalForm>
                 </ModalBody>
               </Modal>
             </div>
@@ -328,7 +257,7 @@ const StaffList = (props) => {
               />
             </div>
             <div className="col-4 col-md-4 mt-1">
-              <button className="btn btn-primary" type="submit" value="Submit">
+              <button className="btn btn-primary" type="submit">
                 Tìm kiếm
               </button>
             </div>

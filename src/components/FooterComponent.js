@@ -10,13 +10,13 @@ function Footer() {
             <h5>Links</h5>
             <ul className="list-unstyled">
               <li>
-                <Link to="/nhanvien">Nhân Viên</Link>
+                <Link to="/staff">Nhân Viên</Link>
               </li>
               <li>
-                <Link to="/phongban">Phòng Ban</Link>
+                <Link to="/department">Phòng Ban</Link>
               </li>
               <li>
-                <Link to="/bangluong">Bảng Lương</Link>
+                <Link to="/salary">Bảng Lương</Link>
               </li>
             </ul>
           </div>

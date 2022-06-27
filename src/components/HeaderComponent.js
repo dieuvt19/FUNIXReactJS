@@ -40,17 +40,17 @@ export default class Header extends Component {
             <Collapse isOpen={this.state.isNavOpen} navbar>
               <Nav navbar>
                 <NavItem>
-                  <NavLink className="nav-link" to="/nhanvien">
+                  <NavLink className="nav-link" to="/staff">
                     <span className="fa fa-users fa-lg"></span> Nhân Viên
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink className="nav-link" to="/phongban">
+                  <NavLink className="nav-link" to="/department">
                     <span className="fa fa-id-card-o fa-lg"></span> Phòng Ban
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink className="nav-link" to="/bangluong">
+                  <NavLink className="nav-link" to="/salary">
                     <span className="fa fa-money fa-lg"></span> Bảng Lương
                   </NavLink>
                 </NavItem>
