@@ -15,23 +15,21 @@ import { Link } from "react-router-dom";
 import { Control, LocalForm, Errors } from "react-redux-form";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteStaff, addStaff } from "../redux/ActionCreators";
+import { FadeTransform } from "react-animation-components";
+import { Loading } from "./LoadingComponent";
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !val || val.length <= len;
 const minLength = (len) => (val) => val && val.length >= len;
-// const isNumber = (val) => !isNaN(Number(val));
 
 const StaffList = () => {
   const dataStaffs = useSelector((state) => state.staffs.staffs);
+  const isLoading = useSelector((state) => state.staffs.isLoading);
+  const errMess = useSelector((state) => state.staffs.errMess);
   let dispatch = useDispatch();
-  // let history = useHistory();
 
   const [staffs, setStaffs] = useState(dataStaffs);
   const [keyword, setKeyword] = useState("");
-
-  // const required = (val) => val && val.length;
-  // const maxLength = (len) => (val) => !val || val.length <= len;
-  // const minLength = (len) => (val) => val && val.length >= len;
 
   // Modal open state
   const [modal, setModal] = useState(false);
@@ -270,32 +268,45 @@ const StaffList = () => {
       <hr />
       <div className="row">
         {dataStaffs.map((staff) => {
-          return (
-            <div key={staff.id} className="col-6 col-md-4 col-lg-2">
-              <div className="m-1">
-                <Card>
-                  <Link to={`/staff/${staff.id}`}>
-                    <CardImg
-                      width="100%"
-                      src={staff.image}
-                      value={staff.name}
-                    />
-                    <p className="d-flex justify-content-center m-0">
-                      {staff.name}
-                    </p>
-                  </Link>
-                  <Button
-                    className="btn btn-danger"
-                    onClick={() => {
-                      handleDelete(staff.id);
+          if (isLoading) {
+            return <Loading />;
+          } else if (errMess) {
+            return <h4>{errMess}</h4>;
+          } else {
+            return (
+              <div key={staff.id} className="col-6 col-md-4 col-lg-2">
+                <div className="m-1">
+                  <FadeTransform
+                    in
+                    transformProps={{
+                      exitTransform: "scale(0.5) translateY(-50%)",
                     }}
                   >
-                    XÓA
-                  </Button>
-                </Card>
+                    <Card>
+                      <Link to={`/staff/${staff.id}`}>
+                        <CardImg
+                          width="100%"
+                          src={staff.image}
+                          value={staff.name}
+                        />
+                        <p className="d-flex justify-content-center m-0">
+                          {staff.name}
+                        </p>
+                      </Link>
+                      <Button
+                        className="btn btn-danger"
+                        onClick={() => {
+                          handleDelete(staff.id);
+                        }}
+                      >
+                        XÓA
+                      </Button>
+                    </Card>
+                  </FadeTransform>
+                </div>
               </div>
-            </div>
-          );
+            );
+          }
         })}
       </div>
     </div>

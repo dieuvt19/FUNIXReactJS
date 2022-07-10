@@ -21,6 +21,7 @@ function Main() {
   return (
     <div>
       <Header />
+
       <Routes>
         <Route path="staff" element={<StaffList />} />
         <Route path="staff/:staffId" element={<StaffDetail />} />
@@ -29,6 +30,7 @@ function Main() {
         <Route path="salary" element={<Salary />} />
         <Route path="updatestaff/:staffId" element={<UpdateStaff />} />
       </Routes>
+
       <Footer />
     </div>
   );

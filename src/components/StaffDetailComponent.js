@@ -11,31 +11,37 @@ import {
 import { Link, useParams } from "react-router-dom";
 import dateFormat from "dateformat";
 import { useSelector } from "react-redux";
+import { FadeTransform } from "react-animation-components";
 
 function RenderStaff({ staff, staffDept, staffId }) {
   if (staff != null && staffDept != null) {
     return (
       <div className="col-12">
-        <div className="row">
-          <div className="col-12 col-md-4 col-lg-3">
-            <CardImg width="100%" src={staff.image} value={staff.name} />
+        <FadeTransform
+          in
+          transformProps={{ exitTransform: "scale(0.5) translateY(-50%)" }}
+        >
+          <div className="row">
+            <div className="col-12 col-md-4 col-lg-3">
+              <CardImg width="100%" src={staff.image} value={staff.name} />
+            </div>
+            <div className="col-12 col-md-8 col-lg-9">
+              <CardTitle>Họ và tên: {staff.name}</CardTitle>
+              <CardText>
+                Ngày sinh: {dateFormat(staff.doB, "dd/mm/yyyy")}
+              </CardText>
+              <CardText>
+                Ngày vào công ty: {dateFormat(staff.startDate, "dd/mm/yyyy")}
+              </CardText>
+              <CardText>Phòng ban: {staffDept.name}</CardText>
+              <CardText>Số ngày nghỉ còn lại: {staff.annualLeave}</CardText>
+              <CardText>Số ngày đã làm thêm: {staff.overTime}</CardText>
+              <Link to={`/updatestaff/${staffId}`}>
+                <Button className="btn btn-warning">UPDATE</Button>
+              </Link>
+            </div>
           </div>
-          <div className="col-12 col-md-8 col-lg-9">
-            <CardTitle>Họ và tên: {staff.name}</CardTitle>
-            <CardText>
-              Ngày sinh: {dateFormat(staff.doB, "dd/mm/yyyy")}
-            </CardText>
-            <CardText>
-              Ngày vào công ty: {dateFormat(staff.startDate, "dd/mm/yyyy")}
-            </CardText>
-            <CardText>Phòng ban: {staffDept.name}</CardText>
-            <CardText>Số ngày nghỉ còn lại: {staff.annualLeave}</CardText>
-            <CardText>Số ngày đã làm thêm: {staff.overTime}</CardText>
-            <Link to={`/updatestaff/${staffId}`}>
-              <Button className="btn btn-warning">UPDATE</Button>
-            </Link>
-          </div>
-        </div>
+        </FadeTransform>
       </div>
     );
   } else {
